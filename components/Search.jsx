@@ -1,19 +1,52 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
 export default function Search() {
+  const [city, setCity] = useState('');
+  const [queryList, setQueryList] = useState([]);
+
+  useEffect(() => {
+    const getCites = async () => {
+      if (city < 1) {
+        setQueryList([]);
+      } else {
+        const { data } = await axios.get(
+          `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+        );
+        console.log('Cities', data);
+        setQueryList(data);
+      }
+    };
+    getCites();
+  }, [city]);
+
   return (
-    <div className='flex justify-center py-6'>
-      <form className='max-w-lg border flex  items-center justify-between px-7  rounded-xl'>
+    <div className='flex flex-col container m-auto justify-center py-6 relative z-50 max-w-lg'>
+      <form className=' border flex  items-center justify-between px-6  rounded-xl'>
         <input
+          onChange={(e) => setCity(e.target.value)}
           type='text'
           placeholder='Search for a city'
-          className='text-xl bg-transparent border-none text-white focus:outline-none py-2'
+          className='w-full text-xl bg-transparent border-none text-white focus:outline-none py-2'
         />
         <button>
           <BsSearch size={20} color={'white'} />
         </button>
       </form>
+      {city && (
+        <div className='mt-3 px-6 shadow-xl shadow-gray-400/10 bg-gray-600/40 backdrop-blur-sm rounded-xl'>
+          <ul className='text-gray-100 text-xl'>
+            {queryList.map((city, index) => {
+              return (
+                <li key={index} className='my-3'>
+                  {city.name}, {city.country}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
