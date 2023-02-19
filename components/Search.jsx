@@ -1,3 +1,4 @@
+import useDebounce from '@/lib/useDebounce';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
@@ -6,20 +7,23 @@ export default function Search() {
   const [city, setCity] = useState('');
   const [queryList, setQueryList] = useState([]);
 
+  const debounceCitySearch = useDebounce(city, 500);
+
   useEffect(() => {
     const getCites = async () => {
       if (city < 1) {
         setQueryList([]);
       } else {
+        console.log('FETCHING');
         const { data } = await axios.get(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+          `http://api.openweathermap.org/geo/1.0/direct?q=${debounceCitySearch}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
         );
         console.log('Cities', data);
         setQueryList(data);
       }
     };
     getCites();
-  }, [city]);
+  }, [debounceCitySearch]);
 
   return (
     <div className='flex flex-col container m-auto justify-center py-6 relative z-50 max-w-lg'>
