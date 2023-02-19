@@ -44,7 +44,8 @@ export default function Search() {
             {queryList.map((city, index) => {
               return (
                 <li key={index} className='my-3'>
-                  {city.name}, {city.country}
+                  {city.name}, {city.state ? city.state + ',' : ''}{' '}
+                  {city.country}
                 </li>
               );
             })}
