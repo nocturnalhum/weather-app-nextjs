@@ -39,11 +39,11 @@ export default function Search() {
         </button>
       </form>
       {city && (
-        <div className='mt-3 px-6 shadow-xl shadow-gray-400/10 bg-gray-600/40 backdrop-blur-sm rounded-xl'>
-          <ul className='text-gray-100 text-xl'>
+        <div className='mt-3 px-6 shadow-gray-300/10 shadow-xl bg-gray-600/40 backdrop-blur-sm rounded-xl'>
+          <ul className='text-gray-100 text-xl divide-solid divide-y divide-gray-200/20'>
             {queryList.map((city, index) => {
               return (
-                <li key={index} className='my-3'>
+                <li key={index} className='py-3'>
                   {city.name}, {city.state ? city.state + ',' : ''}{' '}
                   {city.country}
                 </li>
