@@ -19,7 +19,7 @@ export default function Weather({ currentWeather, forecast }) {
           {!toggle ? 'Forecast' : 'Currently'}
         </button>
         <div
-          className={`relative w-full h-full duration-1000 preserver-3d backface-hidden ${
+          className={`relative w-full h-full duration-1000 preserver-3d  ${
             toggle ? 'rotate-y-180' : ''
           }`}
         >
