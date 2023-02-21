@@ -24,7 +24,7 @@ export default function Search() {
         try {
           setCoord({ lat: null, lon: null });
           const { data } = await axios.get(
-            `${BASE_URL}/geo/1.0/direct?q=${debounceSearch}&limit=5&appid=${API_KEY}`
+            `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
           );
           // console.log('Cities', data);
           setQueryList(data);
@@ -34,7 +34,7 @@ export default function Search() {
       }
     };
     getLocations();
-  }, [debounceSearch]);
+  }, [query]);
 
   // Select correct city and pass geo coordinates to retrieve Weather data:
   const selectCity = (city) => {
@@ -77,7 +77,7 @@ export default function Search() {
           </ul>
         </div>
       )}
-      {coord.lat !== null && <Weather coords={coord} />}
+      <Weather coord={{ coord }} />
     </div>
   );
 }

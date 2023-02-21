@@ -6,20 +6,22 @@ import Forecast from './Forecast';
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 const BASE_URL = 'https://api.openweathermap.org';
 
-export default function Weather({ coords }) {
+export default function Weather({ coord }) {
   const [toggle, setToggle] = useState(false);
   const [data, setData] = useState();
 
+  const { lat, lon } = coord;
+
   useEffect(() => {
     const getWeather = async () => {
-      const { data: current } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=43.6534817&lon=-79.3839347&units=metric&appid=${API_KEY}`
+      const { data } = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=43.6534817&lon=-79.3839347&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
       );
-      console.log('CURRENT', current);
-      setData(current);
+      console.log('CURRENT', data);
+      setData(data);
     };
     getWeather();
-  }, []);
+  }, [lat, lon]);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -27,8 +29,11 @@ export default function Weather({ coords }) {
 
   return (
     <div className='top-16 flex flex-col justify-center items-center w-full'>
-      <div className='mt-4 flex flex-col h-[80vh] w-[80vw] items-start justify-center rounded-2xl perspective group'>
-        <button className=' text-white text-md' onClick={handleToggle}>
+      <div className='mt-4 flex flex-col h-[80vh] w-[90vw] items-start justify-center rounded-2xl perspective group'>
+        <button
+          className=' text-white text-md pl-5'
+          onClick={(prev) => setToggle(!prev)}
+        >
           {!toggle ? 'Forecast' : 'Currently'}
         </button>
         <div
