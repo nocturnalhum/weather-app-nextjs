@@ -5,7 +5,7 @@ import { BsSearch } from 'react-icons/bs';
 import Weather from './Weather';
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
-const BASE_URL = 'http://api.openweathermap.org';
+const BASE_URL = 'https://api.openweathermap.org';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -44,7 +44,10 @@ export default function Search() {
 
   return (
     <div className='flex flex-col container m-auto py-6 relative z-10 max-w-lg'>
-      <form className='border flex  items-center justify-between px-4 rounded-xl'>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className='border flex  items-center justify-between px-4 rounded-xl'
+      >
         <input
           onChange={(e) => setQuery(e.target.value)}
           type='text'
@@ -74,7 +77,7 @@ export default function Search() {
           </ul>
         </div>
       )}
-      {coord.lat === null ? '' : <Weather coords={coord} />}
+      {coord.lat !== null && <Weather coords={coord} />}
     </div>
   );
 }
