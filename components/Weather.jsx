@@ -8,7 +8,7 @@ const BASE_URL = 'https://api.openweathermap.org';
 
 export default function Weather({ coord }) {
   const [toggle, setToggle] = useState(false);
-  const [data, setData] = useState();
+  const [weatherData, setWeatherData] = useState({});
 
   const { lat, lon } = coord;
 
@@ -17,8 +17,8 @@ export default function Weather({ coord }) {
       const { data } = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=43.6534817&lon=-79.3839347&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
       );
-      console.log('CURRENT', data);
-      setData(data);
+      console.log('CURRENT', data.name);
+      setWeatherData(data);
     };
     getWeather();
   }, [lat, lon]);
@@ -42,7 +42,7 @@ export default function Weather({ coord }) {
           }`}
         >
           <div className='absolute w-full h-full'>
-            <Current current={data} />
+            <Current current={weatherData} />
           </div>
           <div className='absolute w-full h-full rotate-y-180 backface-hidden'>
             <Forecast />
