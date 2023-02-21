@@ -14,7 +14,7 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className='min-h-screen bg-landscape bg-cover'>
+      <main className='relative min-h-screen bg-landscape bg-cover'>
         {/* Overlay */}
         <div className='absolute top-0 bottom-0 left-0 right-0 bg-black/50' />
         <Search />

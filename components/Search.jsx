@@ -22,6 +22,7 @@ export default function Search() {
         setQueryList([]);
       } else {
         try {
+          setCoord({ lat: null, lon: null });
           const { data } = await axios.get(
             `${BASE_URL}/geo/1.0/direct?q=${debounceSearch}&limit=5&appid=${API_KEY}`
           );
@@ -73,7 +74,7 @@ export default function Search() {
           </ul>
         </div>
       )}
-      {coord.lat === null ? '' : <Weather coord={coord} />}
+      {coord.lat === null ? '' : <Weather coords={coord} />}
     </div>
   );
 }
