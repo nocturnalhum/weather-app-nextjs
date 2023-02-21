@@ -8,7 +8,6 @@ export default function Weather({ currentWeather, forecast }) {
   console.log('CURR WEATHER', currentWeather);
 
   const handleToggle = () => {
-    console.log('TOGGLE', toggle);
     setToggle(!toggle);
   };
 
@@ -23,10 +22,18 @@ export default function Weather({ currentWeather, forecast }) {
             toggle ? 'rotate-y-180' : ''
           }`}
         >
-          <div className='absolute w-full h-full'>
+          <div
+            className={`absolute w-full h-full duration-1000 ${
+              toggle ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
             <Current currentWeather={currentWeather} />
           </div>
-          <div className='absolute w-full h-full rotate-y-180 backface-hidden'>
+          <div
+            className={`absolute w-full h-full rotate-y-180 backface-hidden duration-1000${
+              toggle ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
             <Forecast forecast={forecast} />
           </div>
         </div>
