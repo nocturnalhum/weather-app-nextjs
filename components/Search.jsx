@@ -10,7 +10,8 @@ const BASE_URL = 'https://api.openweathermap.org';
 export default function Search() {
   const [query, setQuery] = useState('');
   const [queryList, setQueryList] = useState([]);
-  const [coord, setCoord] = useState({ lat: null, lon: null });
+  const [currentWeather, setCurrentWeather] = useState({});
+  const [forecast, setForecast] = useState({});
 
   // Delay query value update while user inputs value to reduce number of API fetches:
   const debounceSearch = useDebounce(query, 500);
@@ -22,9 +23,8 @@ export default function Search() {
         setQueryList([]);
       } else {
         try {
-          setCoord({ lat: null, lon: null });
           const { data } = await axios.get(
-            `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+            `https://api.openweathermap.org/geo/1.0/direct?q=${debounceSearch}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
           );
           // console.log('Cities', data);
           setQueryList(data);
@@ -34,11 +34,23 @@ export default function Search() {
       }
     };
     getLocations();
-  }, [query]);
+  }, [debounceSearch]);
 
   // Select correct city and pass geo coordinates to retrieve Weather data:
-  const selectCity = (city) => {
-    setCoord({ lat: city.lat, lon: city.lon });
+  const selectCity = async (city) => {
+    const { lat, lon } = city;
+    const { data: currentWeather } = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+    );
+    const { data: forecast } = await axios.get(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+    );
+
+    setCurrentWeather(currentWeather);
+    setForecast(forecast);
+    console.log('WEATHER', currentWeather);
+    console.log('FORECAST', forecast);
+
     setQuery('');
   };
 
@@ -77,7 +89,7 @@ export default function Search() {
           </ul>
         </div>
       )}
-      <Weather coord={{ coord }} />
+      <Weather currentWeather={currentWeather} forecast={forecast} />
     </div>
   );
 }
