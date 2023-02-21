@@ -4,6 +4,7 @@ const customClass = plugin(function ({ addUtilities }) {
   addUtilities({
     '.rotate-y-180': {
       transform: 'rotateY(180deg)',
+      duration: 500,
     },
     '.preserver-3d': {
       transformStyle: 'preserve-3d',

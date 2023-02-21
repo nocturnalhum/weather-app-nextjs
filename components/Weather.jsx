@@ -23,14 +23,14 @@ export default function Weather({ currentWeather, forecast }) {
           }`}
         >
           <div
-            className={`absolute w-full h-full duration-1000 ${
+            className={`absolute w-full h-full duration-1000 ease-out transform ${
               toggle ? 'opacity-0' : 'opacity-100'
             }`}
           >
             <Current currentWeather={currentWeather} />
           </div>
           <div
-            className={`absolute w-full h-full rotate-y-180 backface-hidden duration-1000${
+            className={`absolute w-full h-full rotate-y-180  duration-1000 ease-out ${
               toggle ? 'opacity-100' : 'opacity-0'
             }`}
           >
