@@ -10,6 +10,8 @@ const BASE_URL = 'https://api.openweathermap.org';
 export default function Search() {
   const [query, setQuery] = useState('');
   const [queryList, setQueryList] = useState([]);
+  const [showWeather, setShowWeather] = useState(false);
+  const [userCity, setUserCity] = useState({});
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState({});
 
@@ -22,6 +24,7 @@ export default function Search() {
       if (query < 1) {
         setQueryList([]);
       } else {
+        setShowWeather(false);
         try {
           const { data } = await axios.get(
             `https://api.openweathermap.org/geo/1.0/direct?q=${debounceSearch}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
@@ -29,7 +32,7 @@ export default function Search() {
           // console.log('Cities', data);
           setQueryList(data);
         } catch (error) {
-          console.log(`${error.name}[${error.code}]: ${error.message}`);
+          console.log(`${error?.name}[${error?.code}]: ${error?.message}`);
         }
       }
     };
@@ -37,20 +40,18 @@ export default function Search() {
   }, [debounceSearch]);
 
   // Select correct city and pass geo coordinates to retrieve Weather data:
-  const selectCity = async (city) => {
-    const { lat, lon } = city;
-    const { data: currentWeather } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+  const selectCity = async (item) => {
+    const { lat, lon } = item;
+    const { data: current } = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${item?.lat}&lon=${item?.lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
     );
-    const { data: forecast } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+    const { data: fcast } = await axios.get(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${item?.lat}&lon=${item?.lon}&units=metric&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
     );
-
-    setCurrentWeather(currentWeather);
-    setForecast(forecast);
-    console.log('WEATHER', currentWeather);
-    console.log('FORECAST', forecast);
-
+    setCurrentWeather(current);
+    setForecast(fcast);
+    setUserCity(item);
+    setShowWeather(true);
     setQuery('');
   };
 
@@ -81,15 +82,21 @@ export default function Search() {
                   key={index}
                   className='py-3 cursor-pointer hover:bg-gray-200/20 px-8 rounded-xl'
                 >
-                  {item.name}, {item.state ? item.state + ',' : ''}{' '}
-                  {item.country}
+                  {item?.name}, {item?.state ? item.state + ',' : ''}{' '}
+                  {item?.country}
                 </li>
               );
             })}
           </ul>
         </div>
       )}
-      <Weather currentWeather={currentWeather} forecast={forecast} />
+      {showWeather && (
+        <Weather
+          currentWeather={currentWeather}
+          forecast={forecast}
+          userCity={userCity}
+        />
+      )}
     </div>
   );
 }

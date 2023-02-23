@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Current from './Current';
 import Forecast from './Forecast';
 
-export default function Weather({ currentWeather, forecast }) {
+export default function Weather({ userCity, currentWeather, forecast }) {
   const [toggle, setToggle] = useState(false);
-  console.log('CURR WEATHER', currentWeather);
+  // console.log('CURR WEATHER', currentWeather);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -18,19 +18,19 @@ export default function Weather({ currentWeather, forecast }) {
           {!toggle ? 'Forecast' : 'Currently'}
         </button>
         <div
-          className={`relative w-full h-full duration-1000 preserver-3d  ${
+          className={`relative w-full h-full duration-1000 ease-out preserver-3d  ${
             toggle ? 'rotate-y-180' : ''
           }`}
         >
           <div
-            className={`absolute w-full h-full duration-1000 ease-out transform ${
+            className={`absolute w-full h-full duration-300 ${
               toggle ? 'opacity-0' : 'opacity-100'
             }`}
           >
-            <Current currentWeather={currentWeather} />
+            <Current currentWeather={currentWeather} userCity={userCity} />
           </div>
           <div
-            className={`absolute w-full h-full rotate-y-180  duration-1000 ease-out ${
+            className={`absolute w-full h-full rotate-y-180  duration-300 ${
               toggle ? 'opacity-100' : 'opacity-0'
             }`}
           >

@@ -12,9 +12,9 @@ const customClass = plugin(function ({ addUtilities }) {
     '.perspective': {
       perspective: '5000px',
     },
-    '.backface-hidden': {
-      backfaceVisibility: 'hidden',
-    },
+    // '.backface-hidden': {
+    //   backfaceVisibility: 'hidden',
+    // },
   });
 });
 module.exports = {
@@ -33,6 +33,10 @@ module.exports = {
           "url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80')",
         mountains:
           "url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80')",
+      },
+      screens: {
+        portrait: '@media (orientation: portrait)',
+        landcape: '@media (orientation: landscape)',
       },
     },
   },
