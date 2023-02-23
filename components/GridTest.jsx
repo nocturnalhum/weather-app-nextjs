@@ -4,24 +4,19 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 export default function Current({ currentWeather, userCity }) {
-  const [isPortrait, setIsPortrait] = useState(false);
+  const [isNarrow, setIsNarrow] = useState(true);
 
-  useEffect(() => {
-    if (window.screen.orientation.angle === 0) {
-      setIsPortrait(true);
-    } else {
-      setIsPortrait(false);
-    }
-  }, [window.screen.orientation.angle]);
+  const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+  const cat = 'cat';
+  console.log('IS Portrait', isPortrait);
+  console.log('WINDOW', window.screen);
 
   const { name, country } = userCity;
-  const { clouds, main, sys, timezone, visibility, weather, wind } =
-    currentWeather;
+  const { clouds, main, sys, visibility, weather, wind } = currentWeather;
   const { feel_like, grnd_level, humidity, pressure, sea_level, temp } = main;
   const { sunrise, sunset } = sys;
   const { description, icon, main: mainWeather } = weather[0];
   const { deg, gust, speed } = wind;
-  console.log('WINDOW', window.screen.orientation.angle);
 
   const background = 'bg-fuchsia-500/0';
   return (
@@ -33,7 +28,7 @@ export default function Current({ currentWeather, userCity }) {
             className={`${background} row-span-1 col-span-10 portrait:row-span-1 portrait:col-span-7`}
           >
             <div className='text-3xl font-normal mb-4'>
-              {isPortrait
+              {isPortrait && name.length > 15
                 ? `${name.slice(0, 15) + '...'},  ${country}`
                 : `${name},  ${country}`}
             </div>
@@ -52,6 +47,7 @@ export default function Current({ currentWeather, userCity }) {
                 <h2 className='text-lg text-orange-600'>
                   Sunset: {getTime(sunset, currentWeather)}
                 </h2>
+                <h2>Is Portrait: </h2>
               </div>
             </div>
           </div>
