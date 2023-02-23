@@ -12,9 +12,9 @@ const customClass = plugin(function ({ addUtilities }) {
     '.perspective': {
       perspective: '5000px',
     },
-    // '.backface-hidden': {
-    //   backfaceVisibility: 'hidden',
-    // },
+    '.backface-hidden': {
+      backfaceVisibility: 'hidden',
+    },
   });
 });
 module.exports = {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Current from './Current';
+import GridTest from './GridTest';
 import Forecast from './Forecast';
 
 export default function Weather({ userCity, currentWeather, forecast }) {
@@ -27,7 +28,8 @@ export default function Weather({ userCity, currentWeather, forecast }) {
               toggle ? 'opacity-0' : 'opacity-100'
             }`}
           >
-            <Current currentWeather={currentWeather} userCity={userCity} />
+            <GridTest currentWeather={currentWeather} userCity={userCity} />
+            {/* <Current currentWeather={currentWeather} userCity={userCity} /> */}
           </div>
           <div
             className={`absolute w-full h-full rotate-y-180  duration-300 ${

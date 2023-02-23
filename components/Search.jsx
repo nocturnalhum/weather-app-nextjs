@@ -21,7 +21,7 @@ export default function Search() {
   // Get possible city locations according to query input:
   useEffect(() => {
     const getLocations = async () => {
-      if (query < 1) {
+      if (query.length < 1) {
         setQueryList([]);
       } else {
         setShowWeather(false);
